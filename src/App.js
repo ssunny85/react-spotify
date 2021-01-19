@@ -1,23 +1,47 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import axios from 'axios';
+import qs from 'qs';
 
 function App() {
+  const [ token, setToken ] = useState({
+    type: '',
+    accessToken: ''
+  });
+  const clientData = {
+    client_id: '', // TODO: 환경변수로 받아올 예정
+    client_secret: '', // TODO: 환경변수로 받아올 예정
+    grant_type: 'client_credentials',
+  };
+  const options = {
+    method: 'POST',
+    headers: {
+      'content-type': 'application/x-www-form-urlencoded',
+    },
+    data: qs.stringify(clientData),
+    url: 'https://accounts.spotify.com/api/token',
+  };
+
+  const fetchToken = async () => {
+    try {
+      const { data } = await axios(options);
+      setToken({
+        ...token,
+        type: data['token_type'],
+        accessToken: data['access_token'],
+      });
+    } catch (e) {
+      console.log('e: ', e);
+    }
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <button
+        onClick={fetchToken}
+        disabled={token.accessToken}>
+        토큰발급
+      </button>
+      <p>{token.accessToken && <strong>토큰발급 완료</strong>}</p>
     </div>
   );
 }
