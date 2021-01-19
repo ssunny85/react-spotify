@@ -8,8 +8,8 @@ function App() {
     accessToken: ''
   });
   const clientData = {
-    client_id: '', // TODO: 환경변수로 받아올 예정
-    client_secret: '', // TODO: 환경변수로 받아올 예정
+    client_id: process.env.REACT_APP_CLIENT_ID,
+    client_secret: process.env.REACT_APP_CLIENT_SECRET,
     grant_type: 'client_credentials',
   };
   const options = {
@@ -18,7 +18,7 @@ function App() {
       'content-type': 'application/x-www-form-urlencoded',
     },
     data: qs.stringify(clientData),
-    url: 'https://accounts.spotify.com/api/token',
+    url: `${process.env.REACT_APP_API_URL}/api/token`,
   };
 
   const fetchToken = async () => {
