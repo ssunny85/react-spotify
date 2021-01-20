@@ -5,6 +5,7 @@ import './App.scss';
 
 function App() {
   const [ token, setToken ] = useState('');
+  const [ searchWord, setSearchWord ] = useState('');
   const [ newAlbums, setNewAlbums ] = useState([]);
   const clientData = {
     client_id: process.env.REACT_APP_CLIENT_ID,
@@ -29,6 +30,16 @@ function App() {
     }
   };
 
+  const changeSearchWord = (event) => {
+    console.log('event: ', event.target.value);
+    setSearchWord(event.target.value);
+    console.log('search word: ', searchWord);
+  };
+
+  const fetchSearchResults = () => {
+    console.log('검색!!');
+  };
+
   const fetchNewAlbums = async () => {
     try {
       // TODO: api header에 authorization 공통설정 추가, api url 환경변수 설정
@@ -51,6 +62,15 @@ function App() {
         토큰발급
       </button>
       <p>{token && <strong>토큰발급 완료</strong>}</p>
+
+      <div className="search">
+        <input
+          type="text"
+          name="searchWord"
+          value={searchWord}
+          onChange={changeSearchWord} />
+        <button onClick={fetchSearchResults}>검색</button>
+      </div>
 
       <div>
         <button onClick={fetchNewAlbums}>신작 조회</button>
