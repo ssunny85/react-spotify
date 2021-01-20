@@ -1,0 +1,23 @@
+.album-item {
+  display: flex;
+  flex-flow: row-reverse;
+  justify-content: flex-end;
+  align-items: center;
+  flex-wrap: wrap;
+  margin: 0;
+  padding: 10px 0;
+  list-style: none;
+  border-bottom: 1px solid lightgray;
+
+  &__picture {
+    margin-right: 10px;
+    img {
+      vertical-align: top;
+    }
+  }
+
+  &__info {
+    font-size: 11px;
+  }
+
+}
