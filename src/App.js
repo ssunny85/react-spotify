@@ -3,10 +3,7 @@ import axios from 'axios';
 import qs from 'qs';
 
 function App() {
-  const [ token, setToken ] = useState({
-    type: '',
-    accessToken: ''
-  });
+  const [ token, setToken ] = useState('');
   const clientData = {
     client_id: process.env.REACT_APP_CLIENT_ID,
     client_secret: process.env.REACT_APP_CLIENT_SECRET,
@@ -24,11 +21,7 @@ function App() {
   const fetchToken = async () => {
     try {
       const { data } = await axios(options);
-      setToken({
-        ...token,
-        type: data['token_type'],
-        accessToken: data['access_token'],
-      });
+      setToken(`${data['token_type']} ${data['access_token']}`);
     } catch (e) {
       console.log('e: ', e);
     }
@@ -38,10 +31,10 @@ function App() {
     <div className="App">
       <button
         onClick={fetchToken}
-        disabled={token.accessToken}>
+        disabled={token}>
         토큰발급
       </button>
-      <p>{token.accessToken && <strong>토큰발급 완료</strong>}</p>
+      <p>{token && <strong>토큰발급 완료</strong>}</p>
     </div>
   );
 }
