@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import api from '../../util/axios';
 import Albums from '../Albums';
 import './style.scss';
 
@@ -10,20 +10,16 @@ function Search() {
   const changeSearchWord = (event) => {
     setSearchWord(event.target.value);
   };
+
   const fetchSearchResults = async () => {
-    console.log('검색!!');
     try {
-      // TODO: api header에 authorization 공통설정 추가, api url 환경변수 설정
-      const config = {
-        headers: {
-          Authorization: token
-        },
+      const params = {
         params: {
           q: `name:${searchWord}`,
           type: 'album'
         }
       };
-      const { data } = await axios.get('https://api.spotify.com/v1/search', config);
+      const { data } = await api.get('/v1/search', params);
       console.log('검색 data: ', data);
       setResults(data.albums.items);
       setSearchWord('');
