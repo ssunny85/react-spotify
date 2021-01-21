@@ -1,3 +1,8 @@
+@import './assets/scss/_variables.scss';
+@import './assets/scss/reset.scss';
+@import './assets/scss/common.scss';
+
+/* TODO: 각 컴포넌트 스타일로 위치 변경 */
 .search {
   display: flex;
   justify-content: center;

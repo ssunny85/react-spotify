@@ -72,7 +72,7 @@ function App() {
   };
 
   return (
-    <div className="App">
+    <div className="my-app">
       <button
         onClick={fetchToken}
         disabled={token}>
