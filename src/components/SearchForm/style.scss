@@ -3,8 +3,7 @@
   justify-content: center;
   align-content: center;
   flex-wrap: nowrap;
-  padding: 15px;
-  background: lighten(gray, 40%);
+  border: 1px solid $default-color;
 
   input {
     width: 100%;
