@@ -41,25 +41,46 @@ const SearchWrap = styled.div`
 `;
 
 function SearchForm({ options }) {
-  const [searchWord, setSearchWord] = useState('');
+  const [search, setSearch] = useState({
+    type: 'album',
+    word: '',
+  });
+  const [isSearched, setIsSearched] = useState(false);
   const [results, setResults] = useState([]);
 
   const changeSearchWord = (event) => {
-    setSearchWord(event.target.value);
+    const { name, value } = event.target;
+    setSearch({
+      ...search,
+      [name]: value,
+    });
+  };
+
+  const changeSearchOption = (event) => {
+    const { name, value } = event.target;
+    setSearch({
+      ...search,
+      [name]: value,
+    });
   };
 
   const fetchSearchResults = async () => {
     try {
       const params = {
         params: {
-          q: `name:${searchWord}`,
-          type: 'album'
+          q: search.word,
+          type: search.type,
         }
       };
+      console.log('params: ', params);
       const { data } = await api.get('/v1/search', params);
       console.log('검색 data: ', data);
       setResults(data.albums.items);
-      setSearchWord('');
+      setIsSearched(true);
+      setSearch({ // TODO: 초기값 설정
+        type: 'album',
+        word: '',
+      });
     } catch (e) {
       console.log('e: ', e);
     }
@@ -68,19 +89,27 @@ function SearchForm({ options }) {
   return (
     <>
       <SearchWrap>
-        <select>
+        <select name="type" onChange={changeSearchOption}>
           {options.map((option) => (
-            <option key={option.id} value={option.id}>{option.label}</option>
+          <option key={option.id} value={option.id}>{option.label}</option>
           ))}
         </select>
         <input
           type="text"
-          name="searchWord"
-          value={searchWord}
+          name="word"
+          value={search.word}
           onChange={changeSearchWord} />
         <button onClick={fetchSearchResults}>검색</button>
       </SearchWrap>
-      <Albums albums={results} />
+      {isSearched &&
+        <>
+          <h1 className="title">검색결과</h1>
+          {results.length > 0 ?
+            <Albums albums={results}/>
+            : <p>no data</p>
+          }
+        </>
+      }
     </>
   );
 }
