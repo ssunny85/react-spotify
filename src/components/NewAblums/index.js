@@ -18,7 +18,9 @@ function NewAblums({ token }) {
         console.log('e: ', e);
       }
     };
-    fetchNewAlbums();
+    if (token) { // TODO: 인증토큰 전역 상태관리로 변경
+      fetchNewAlbums();
+    }
   }, [token]);
 
   return (

@@ -15,11 +15,22 @@ const AlbumList = styled.ul`
   .album-item {
     padding: 1rem;
     border-top: 1px solid #fff;
-    border-bottom: 1px solid #fff;  
+    border-bottom: 1px solid #fff;
+    
+    button {
+      padding: 0.2rem 0.5rem;
+      background: #fff;
+      color: #6741d9;
+      border: 1px solid #6741d9;
+      border-radius: 4px;
+    }
   }
 `;
 
 function Albums({ albums }) {
+  const playMusic = () => {
+    console.log('음악 재생');
+  };
   return (
     <AlbumsWrap>
       {albums.length > 0 ?
@@ -33,11 +44,12 @@ function Albums({ albums }) {
               <p className="album-item__info">
                 <span>발매일자: {album.release_date}</span>
               </p>
+              <button onClick={playMusic}>재생</button>
             </div>
             {album.images.filter((image) => image.height === 64).map((image, index) => (
-              <span className="album-item__picture" key={`${image}_${index}`}>
-                <img src={image.url} alt=""/>
-              </span>
+            <span className="album-item__picture" key={`${image}_${index}`}>
+              <img src={image.url} alt="" />
+            </span>
             ))}
           </li>
           ))}

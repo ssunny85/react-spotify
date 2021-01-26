@@ -38,11 +38,8 @@ function App() {
   return (
     <div className="my-app">
       <SearchForm />
+      {/*TODO: 인증토큰 전역 상태관리로 변경*/}
       <NewAblums token={token} />
-      {/*<div>*/}
-      {/*  <button onClick={fetchNewAlbums}>신작 조회</button>*/}
-      {/*</div>*/}
-      {/*<Albums />*/}
     </div>
   );
 }
