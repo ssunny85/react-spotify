@@ -4,6 +4,7 @@ import api from './util/axios';
 import './App.scss';
 import SearchForm from './components/SearchForm';
 import NewAblums from './components/NewAblums';
+import FeaturedAlbums from './components/Featured';
 
 function App() {
   const [token, setToken] = useState('');
@@ -40,6 +41,7 @@ function App() {
       <SearchForm />
       {/*TODO: 인증토큰 전역 상태관리로 변경*/}
       <NewAblums token={token} />
+      <FeaturedAlbums token={token} />
     </div>
   );
 }
