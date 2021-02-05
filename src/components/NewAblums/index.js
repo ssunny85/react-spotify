@@ -5,17 +5,17 @@ import Albums from '../Albums';
 
 const NewAlbumWrap = styled.div``;
 const LIMIT = 5;
+let index = 0;
+
 function NewAblums({ token }) {
-  const [newAlbums, setNewAblums] = useState([]);
-  const getNewAlbums = useCallback((nextIndex) => {
-    console.log('nextIndex: ', nextIndex);
+  const [newAlbums, setNewAlbums] = useState([]);
+  const getNewAlbums = useCallback((index) => {
     const config = {
       params: {
         limit: LIMIT,
-        offset: nextIndex,
+        offset: LIMIT * index,
       }
     };
-    console.log('config: ', JSON.stringify(config, null, 2));
     return new Promise((resolve, reject) => {
       api.get('/v1/browse/new-releases', config)
         .then((data) => {
@@ -25,27 +25,25 @@ function NewAblums({ token }) {
           reject(error);
         })
     });
-  }, []);
+  }, [index]);
 
   const fetchNewAlbumsMore = useCallback(async () => {
-    console.log('더보기');
     try {
-      const { data } = await getNewAlbums(nextIndex);
-      console.log('data: ', data);
-      setNewAblums(newAlbums.concat(data.albums.items));
-      setNextIndex((idx) => idx + data.albums.limit);
+      const { data } = await getNewAlbums(index);
+      setNewAlbums(newAlbums.concat(data.albums.items));
+      index ++;
     } catch (e) {
       console.log('e: ', e);
     }
-  }, [nextIndex]);
+  }, [newAlbums]);
 
   useEffect(() => {
     const fetchNewAlbums = async () => {
       try {
         if (token) { // TODO: 인증토큰 전역 상태관리로 변경
-          const { data } = await getNewAlbums();
-          console.log('data: ', data);
-          setNewAblums(newAlbums.concat(data.albums.items));
+          const { data } = await getNewAlbums(index);
+          setNewAlbums(newAlbums.concat(data.albums.items));
+          index++;
         }
       } catch (e) {
         console.log('e: ', e);
